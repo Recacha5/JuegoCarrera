@@ -53,7 +53,7 @@ public class Carrera {
                                 case 2: System.out.println("Dime la distancia de la carrera");
                                         this.distanciaCarrera = leer.nextInt();
                                         break;
-                                case 3: 
+                                case 3: añadirCoche();
                                         System.out.println("Pulsa enter para continuar...");
                                         sc.nextLine();
                                         break;
@@ -74,15 +74,34 @@ public class Carrera {
                         sc.nextLine();                    
                         break;        
             }
-            
-            
+
         }
     }
     
-    public void añadirCoche(){
+    private void añadirCoche(){
         Scanner leer = new Scanner(System.in);
+        String piloto;
+        int dorsal;
+        System.out.println("Dime el nombre del piloto");
+        piloto = leer.nextLine();
+        System.out.println("Dime el dorsal de " + piloto);
+        dorsal = leer.nextInt();
+        vCoches[0] = new Coche (piloto, dorsal, this.distanciaCarrera);
         
         
+        
+        for (int i = 1; i < vCoches.length; i++) {
+            for (int j = 1; i < vCoches.length; i++) {
+                if (vCoches[j].getDorsal() == dorsal) {
+                    System.out.println("Dorsal ya escogido");
+                }
+            }
+        }
+        for (int i = 1; i < vCoches.length; i++) {
+            if (vCoches[i]!= null) {
+                vCoches[i] = new Coche (piloto, i, this.distanciaCarrera);
+            }
+        }
         
         
     }

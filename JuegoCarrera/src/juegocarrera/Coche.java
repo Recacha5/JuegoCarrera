@@ -33,7 +33,7 @@ public class Coche {
 
     @Override
     public String toString() {
-        return "Piloto: " + piloto + "Dorsal: " + dorsal + "\n" +
+        return "Piloto: " + piloto + "Dorsal: " + getDorsal() + "\n" +
                "Distancia Recorrida: " + distancia + "\n" +
                "Estado: " + estado + "\n" +
                "Velocidad: " + velocidad + "\n" +
@@ -97,4 +97,13 @@ public class Coche {
             System.out.println("No puedes rearrancar si no estás accidentado");
         }
     }
+
+    /**
+     * @return the dorsal
+     */
+    public int getDorsal() {
+        return dorsal;
+    }
+    
+    
 }

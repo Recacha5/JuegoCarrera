@@ -57,6 +57,26 @@ public class Menus {
         return opcion;
     }
     
-    
+    public static int MenuCarrera(){
+        
+        int opcion = 0;
+        while (opcion<1 || opcion>4){
+            Scanner leer = new Scanner(System.in);
+            System.out.println("");
+            System.out.println("---Menú Carrera---");
+            System.out.println("1- Acelerar.");
+            System.out.println("2- Frenar.");
+            System.out.println("3- Rearrancar.");
+            System.out.println("4- Parar carrera.");
+            System.out.println("------------------");
+            System.out.println("Seleccione una opción");
+            try{
+                opcion = leer.nextInt();
+            }catch(Exception e){
+
+            } 
+        }
+        return opcion;
+    }
     
 }
