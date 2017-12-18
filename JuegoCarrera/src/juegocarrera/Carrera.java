@@ -86,23 +86,16 @@ public class Carrera {
         piloto = leer.nextLine();
         System.out.println("Dime el dorsal de " + piloto);
         dorsal = leer.nextInt();
-        vCoches[0] = new Coche (piloto, dorsal, this.distanciaCarrera);
-        
-        
-        
-        for (int i = 1; i < vCoches.length; i++) {
-            for (int j = 1; i < vCoches.length; i++) {
-                if (vCoches[j].getDorsal() == dorsal) {
-                    System.out.println("Dorsal ya escogido");
-                }
-            }
+        if (dorsal > 100) {
+            System.out.println("Dorsal no válido");
+        }else{
+            vCoches[0] = new Coche (piloto, dorsal, this.distanciaCarrera);
         }
+        
         for (int i = 1; i < vCoches.length; i++) {
             if (vCoches[i]!= null) {
-                vCoches[i] = new Coche (piloto, i, this.distanciaCarrera);
+                vCoches[i] = new Coche ("bot"+i, i+100, this.distanciaCarrera);
             }
         }
-        
-        
     }
 }
