@@ -12,6 +12,20 @@ import java.util.Random;
  * @author Alex Recacha
  */
 public class Coche {
+
+    /**
+     * @param estado the estado to set
+     */
+    public void setEstado(String estado) {
+        this.estado = estado;
+    }
+
+    /**
+     * @return the estado
+     */
+    public String getEstado() {
+        return estado;
+    }
     
     private String piloto;
     private int dorsal;
@@ -34,15 +48,15 @@ public class Coche {
     @Override
     public String toString() {
         return "Piloto: " + piloto + " Dorsal: " + dorsal + "\n" +
-               "Distancia Recorrida: " + distancia + "\n" +
-               "Estado: " + estado + "\n" +
+               "Distancia Recorrida: " + getDistancia() + "\n" +
+               "Estado: " + getEstado() + "\n" +
                "Velocidad: " + velocidad + " km/h \n" +
-               "Km Recorridos: " + kmRecorridos + "\n--------------\n";
+               "Km Recorridos: " + kmRecorridos + "\n--------------";
     }
     
     public void arrancar(){
         if (!estado.equalsIgnoreCase("Marcha")) {
-            estado = "Marcha";
+            setEstado("Marcha");
             velocidad = 0;
             System.out.println("Arrancado!");
         }else{
@@ -53,17 +67,17 @@ public class Coche {
     public void acelerar(){
         Random r = new Random();
         
-        if (estado.equalsIgnoreCase("Marcha")){
+        if (getEstado().equalsIgnoreCase("Marcha")){
             velocidad += r.nextInt(potencia)+1;
             if (velocidad > 200) {
-                estado = "Accidentado";
+                setEstado("Accidentado");
                 velocidad = 0;
                 System.out.println("Te has pasado de acelerar, has accidentado");
             }else{
                 kmRecorridos += velocidad;
             }
-            if (kmRecorridos > distancia) {
-                estado = "Terminado";
+            if (kmRecorridos > getDistancia()) {
+                setEstado("Terminado");
                 System.out.println("Has finalizado la carrera");
             }
         }else{
@@ -73,14 +87,14 @@ public class Coche {
     
     public void frenar(){
         Random r = new Random();
-        if (estado.equalsIgnoreCase("Marcha")) {
+        if (getEstado().equalsIgnoreCase("Marcha")) {
             velocidad -= r.nextInt(potencia)+1;
             if (velocidad < 0) {
                 velocidad = 0;
             }
             kmRecorridos += velocidad;
-            if (kmRecorridos > distancia) {
-                estado = "Terminado";
+            if (kmRecorridos > getDistancia()) {
+                setEstado("Terminado");
                 System.out.println("Has finalizado la carrera");
             }
         }else{
@@ -90,8 +104,8 @@ public class Coche {
     }
     
     public void rearrancar(){
-        if (estado.equalsIgnoreCase("Accidentado")) {
-            estado = "Marcha";
+        if (getEstado().equalsIgnoreCase("Accidentado")) {
+            setEstado("Marcha");
             velocidad = 0;
         }else{
             System.out.println("No puedes rearrancar si no estás accidentado");
@@ -103,6 +117,13 @@ public class Coche {
      */
     public int getDorsal() {
         return dorsal;
+    }
+
+    /**
+     * @return the distancia
+     */
+    public int getDistancia() {
+        return distancia;
     }
     
     

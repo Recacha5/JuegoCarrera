@@ -15,11 +15,10 @@ import java.util.Scanner;
 public class Menus {
     
     public static int MenuPrincipal(){
-        Scanner leer1 = new Scanner(System.in);
-        
+
         int opcion = 0;
         while (opcion<1 || opcion>3){
-            
+            Scanner leer1 = new Scanner(System.in);
             System.out.println("");
             System.out.println("----Menú Principal----");
             System.out.println("1- Configurar Carrera.");
@@ -30,7 +29,7 @@ public class Menus {
             try{
                 opcion = leer1.nextInt();
             }catch(Exception e){
-
+                
             } 
         }
         return opcion;
@@ -38,8 +37,8 @@ public class Menus {
     
     public static int MenuConfiguración(){
         
-        int opcion = 0;
-        while (opcion<1 || opcion>4){
+        int opcion2 = 0;
+        while (opcion2<1 || opcion2>4){
             Scanner leer = new Scanner(System.in);
             System.out.println("");
             System.out.println("----Menú Configuración----");
@@ -50,18 +49,18 @@ public class Menus {
             System.out.println("----------------------");
             System.out.println("Seleccione una opción");
             try{
-                opcion = leer.nextInt();
+                opcion2 = leer.nextInt();
             }catch(Exception e){
 
             } 
         }
-        return opcion;
+        return opcion2;
     }
     
     public static int MenuCarrera(){
         
-        int opcion = 0;
-        while (opcion<1 || opcion>4){
+        int opcion3 = 0;
+        while (opcion3<1 || opcion3>4){
             Scanner leer = new Scanner(System.in);
             System.out.println("");
             System.out.println("---Menú Carrera---");
@@ -72,12 +71,12 @@ public class Menus {
             System.out.println("------------------");
             System.out.println("Seleccione una opción");
             try{
-                opcion = leer.nextInt();
+                opcion3 = leer.nextInt();
             }catch(Exception e){
 
             } 
         }
-        return opcion;
+        return opcion3;
     }
     
 }

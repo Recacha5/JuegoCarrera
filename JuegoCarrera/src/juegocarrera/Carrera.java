@@ -46,6 +46,8 @@ public class Carrera {
         boolean parar = true;
         
         while(terminado){
+            volver=true;
+            parar=true;
             switch(Menus.MenuPrincipal()){
                 
                 case 1: while(volver){
@@ -54,11 +56,9 @@ public class Carrera {
                                         this.circuito = leer.nextLine();
                                         break;
                                 case 2: System.out.println("Dime la distancia de la carrera");
-                                        this.distanciaCarrera = leer.nextInt();
+                                        this.distanciaCarrera = leer1.nextInt();
                                         break;
                                 case 3: añadirCoche();
-                                        System.out.println("Pulsa enter para continuar...");
-                                        sc.nextLine();
                                         break;
                                 case 4: 
                                         System.out.println("Pulsa enter para continuar...");
@@ -69,21 +69,41 @@ public class Carrera {
                         }
                         break;
                 case 2: if (comprobarConfiguracion()) {
-                            vCoches[0].arrancar();
+                            for (Coche c:vCoches) {
+                                if (c!=null) {
+                                    c.arrancar();
+                                }
+                            }
+                            
                             while(parar){                                
-                                this.toString();
+                                
                                 switch(Menus.MenuCarrera()){
                                     case 1: vCoches[0].acelerar();
+                                            movimientoBots();
                                             mostrar();
+                                            System.out.println("Pulsa enter para continuar...");
+                                            sc.nextLine();
                                             break;
                                     case 2: vCoches[0].frenar();
+                                            movimientoBots();
                                             mostrar();
+                                            System.out.println("Pulsa enter para continuar...");
+                                            sc.nextLine();
                                             break;
                                     case 3: vCoches[0].rearrancar();
+                                            movimientoBots();
                                             mostrar();
+                                            System.out.println("Pulsa enter para continuar...");
+                                            sc.nextLine();
                                             break;
                                     case 4: parar = false;
                                             break;  
+                                }
+                                if (!comprobarTerminado()) {
+                                    for (Coche c:vCoches) {
+                                        c = null;
+                                    }
+                                    parar = false;
                                 }
                             }
                         }else{
@@ -95,7 +115,8 @@ public class Carrera {
                 case 3: terminado = false;
                         System.out.println("Pulsa enter para continuar...");
                         sc.nextLine();                    
-                        break;        
+                        break;
+                default: break;
             }
         }
     }
@@ -134,7 +155,7 @@ public class Carrera {
     
     private boolean comprobarConfiguracion(){
         
-        if (vCoches[0] != null && distanciaCarrera != 0 && circuito != null) {
+        if (vCoches[0] != null && vCoches[0].getDistancia() != 0 && this.circuito != null) {
             return true;
         }else{
             return false;
@@ -152,14 +173,40 @@ public class Carrera {
         Random r = new Random();
         
         for (int i = 1; i < vCoches.length; i++) {
-            if (r.nextInt(2) == 0) {
-                vCoches[i].acelerar();
-            }else if (r.nextInt(2)==1){
-                vCoches[i].frenar();
+            if (vCoches[i].getEstado().equalsIgnoreCase("Accidentado") && !vCoches[0].getEstado().equalsIgnoreCase("Terminado")) {
+                vCoches[i].setEstado("Marcha");
+            }else{
+                int opcion = r.nextInt(3);
+                if (opcion == 0 || opcion==1) {
+                    vCoches[i].acelerar();
+                }else if (opcion == 2){
+                    vCoches[i].frenar();
+                }
             }
-            
-            
         }
         
+    }
+    
+    private boolean comprobarTerminado(){
+        int contador=0;
+        for (Coche c:vCoches) {
+            if (!c.getEstado().equalsIgnoreCase("Marcha")) {
+                contador++;
+            }
+        }
+        if (contador == 0) {
+            return true;
+        }else{
+            return false;
+        }
+    }
+    
+    private void moverBotsHastaTerminar(){
+        
+        while (comprobarTerminado()){
+            if (vCoches[0].getEstado().equalsIgnoreCase("Terminado")) {
+                movimientoBots();
+            }
+        }
     }
 }
