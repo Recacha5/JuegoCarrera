@@ -33,11 +33,11 @@ public class Coche {
 
     @Override
     public String toString() {
-        return "Piloto: " + piloto + "Dorsal: " + getDorsal() + "\n" +
+        return "Piloto: " + piloto + " Dorsal: " + dorsal + "\n" +
                "Distancia Recorrida: " + distancia + "\n" +
                "Estado: " + estado + "\n" +
-               "Velocidad: " + velocidad + "\n" +
-               "Km Recorridos: " + kmRecorridos;
+               "Velocidad: " + velocidad + " km/h \n" +
+               "Km Recorridos: " + kmRecorridos + "\n--------------\n";
     }
     
     public void arrancar(){

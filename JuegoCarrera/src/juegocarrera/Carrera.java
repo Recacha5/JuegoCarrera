@@ -5,6 +5,7 @@
  */
 package juegocarrera;
 
+import java.util.Random;
 import java.util.Scanner;
 
 /**
@@ -15,7 +16,7 @@ public class Carrera {
 
     private String circuito;
     private Coche vCoches[];
-    private int distanciaCarrera;
+    private int distanciaCarrera = 0;
 
     public Carrera() {
         this.vCoches = new Coche[5];
@@ -39,8 +40,10 @@ public class Carrera {
     public void jugar(){
         Scanner sc = new Scanner(System.in);
         Scanner leer = new Scanner(System.in);
+        Scanner leer1 = new Scanner(System.in);
         boolean terminado = true;
         boolean volver = true;
+        boolean parar = true;
         
         while(terminado){
             switch(Menus.MenuPrincipal()){
@@ -65,7 +68,27 @@ public class Carrera {
                             }
                         }
                         break;
-                case 2: 
+                case 2: if (comprobarConfiguracion()) {
+                            vCoches[0].arrancar();
+                            while(parar){                                
+                                this.toString();
+                                switch(Menus.MenuCarrera()){
+                                    case 1: vCoches[0].acelerar();
+                                            mostrar();
+                                            break;
+                                    case 2: vCoches[0].frenar();
+                                            mostrar();
+                                            break;
+                                    case 3: vCoches[0].rearrancar();
+                                            mostrar();
+                                            break;
+                                    case 4: parar = false;
+                                            break;  
+                                }
+                            }
+                        }else{
+                            System.out.println("Configuración inválida");
+                        }
                         System.out.println("Pulsa enter para continuar...");
                         sc.nextLine();
                         break;
@@ -74,10 +97,8 @@ public class Carrera {
                         sc.nextLine();                    
                         break;        
             }
-
         }
     }
-    
     private void añadirCoche(){
         Scanner leer = new Scanner(System.in);
         String piloto;
@@ -86,16 +107,59 @@ public class Carrera {
         piloto = leer.nextLine();
         System.out.println("Dime el dorsal de " + piloto);
         dorsal = leer.nextInt();
-        if (dorsal > 100) {
-            System.out.println("Dorsal no válido");
-        }else{
+        if (comprobarDorsal(dorsal)) {
             vCoches[0] = new Coche (piloto, dorsal, this.distanciaCarrera);
+        }else{
+            System.out.println("Dorsal no válido");
         }
-        
+        //Creo los bots
         for (int i = 1; i < vCoches.length; i++) {
-            if (vCoches[i]!= null) {
-                vCoches[i] = new Coche ("bot"+i, i+100, this.distanciaCarrera);
+            vCoches[i] = new Coche ("bot "+i, i+100, this.distanciaCarrera);
+        }
+        for (int i = 0; i < vCoches.length; i++) {
+            if (comprobarDorsal(dorsal)) {
+                vCoches[i] = new Coche ("bot "+i, i++, this.distanciaCarrera);
             }
         }
+    }
+    
+    private boolean comprobarDorsal(int dorsal){
+        for (int i = 0; i < vCoches.length; i++){
+            if (vCoches[i]!= null && vCoches[i].getDorsal() == dorsal) {
+                return false;
+            }
+        }
+        return true;
+    }
+    
+    private boolean comprobarConfiguracion(){
+        
+        if (vCoches[0] != null && distanciaCarrera != 0 && circuito != null) {
+            return true;
+        }else{
+            return false;
+        }
+    }
+    
+    private void mostrar(){
+        
+        for (Coche c:vCoches) {
+            System.out.println(c.toString());
+        }
+    }
+    
+    private void movimientoBots(){
+        Random r = new Random();
+        
+        for (int i = 1; i < vCoches.length; i++) {
+            if (r.nextInt(2) == 0) {
+                vCoches[i].acelerar();
+            }else if (r.nextInt(2)==1){
+                vCoches[i].frenar();
+            }
+            
+            
+        }
+        
     }
 }
