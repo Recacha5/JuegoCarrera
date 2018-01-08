@@ -212,21 +212,28 @@ public class Carrera {
     
     private void introducirGanadores(){
         boolean bandera = true;
+        boolean repetido = false;
         
         while (bandera){
             for (int i = 0; i < vCoches.length; i++) {
                 if (vCoches[i].getEstado().equalsIgnoreCase("Terminado")) {
                     for (int j = 0; j < vGanadores.length; j++) {
-                        if (vGanadores[j] != null && vGanadores[j] == vCoches[i]) {
-                            bandera = false;
-                        }else if (vGanadores[j] == null){
-                            vGanadores[j] = vCoches[i];
-                            bandera = false;
+                        if (vGanadores[j] != null && vGanadores[j].getDorsal() == vCoches[i].getDorsal()) {
+                            
+                            repetido = true;
+                            break;
                         }
                     }
-                }
+                    if (!repetido)
+                        for (int j=0; j<vGanadores.length;j++){
+                            if (vGanadores[j] == null){
+                               vGanadores[j] = vCoches[i];
+                               bandera = false;
+                               break;
+                            }
+                        }
             }
-            bandera = false;
+            }
         }
         
     }
