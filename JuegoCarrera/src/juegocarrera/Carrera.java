@@ -16,10 +16,12 @@ public class Carrera {
 
     private String circuito;
     private Coche vCoches[];
+    private Coche vGanadores[];
     private int distanciaCarrera = 0;
 
     public Carrera() {
         this.vCoches = new Coche[5];
+        this.vGanadores = new Coche[3];
     }
 
     public Carrera(String circuito, int distanciaCarrera) {
@@ -38,7 +40,7 @@ public class Carrera {
     }
     
     public void jugar(){
-        Scanner sc = new Scanner(System.in);
+        
         Scanner leer = new Scanner(System.in);
         Scanner leer1 = new Scanner(System.in);
         boolean terminado = true;
@@ -46,11 +48,13 @@ public class Carrera {
         boolean parar = true;
         
         while(terminado){
+            Scanner sc = new Scanner(System.in);
             volver=true;
             parar=true;
             switch(Menus.MenuPrincipal()){
                 
                 case 1: while(volver){
+                            
                             switch(Menus.MenuConfiguración()){
                                 case 1: System.out.println("Dime el nombre del circuito");
                                         this.circuito = leer.nextLine();
@@ -60,10 +64,7 @@ public class Carrera {
                                         break;
                                 case 3: añadirCoche();
                                         break;
-                                case 4: 
-                                        System.out.println("Pulsa enter para continuar...");
-                                        leer.nextLine(); 
-                                        volver = false;
+                                case 4: volver = false;
                                         break;  
                             }
                         }
@@ -76,33 +77,37 @@ public class Carrera {
                             }
                             
                             while(parar){                                
-                                
+                                Scanner sc1 = new Scanner(System.in);
                                 switch(Menus.MenuCarrera()){
                                     case 1: vCoches[0].acelerar();
                                             movimientoBots();
                                             mostrar();
                                             System.out.println("Pulsa enter para continuar...");
-                                            sc.nextLine();
+                                            sc1.nextLine();
                                             break;
                                     case 2: vCoches[0].frenar();
                                             movimientoBots();
                                             mostrar();
                                             System.out.println("Pulsa enter para continuar...");
-                                            sc.nextLine();
+                                            sc1.nextLine();
                                             break;
                                     case 3: vCoches[0].rearrancar();
                                             movimientoBots();
                                             mostrar();
                                             System.out.println("Pulsa enter para continuar...");
-                                            sc.nextLine();
+                                            sc1.nextLine();
                                             break;
                                     case 4: parar = false;
                                             break;  
                                 }
-                                if (!comprobarTerminado()) {
-                                    for (Coche c:vCoches) {
-                                        c = null;
+                                if (comprobarTerminado()) {
+                                    moverBotsHastaTerminar();
+                                    
+                                    mostrarGanadores();
+                                    for (int i = 0; i < vCoches.length; i++) {
+                                        vCoches[i] = null;
                                     }
+                                    System.out.println("Carrera finalizada, siguiente circuito!");
                                     parar = false;
                                 }
                             }
@@ -169,6 +174,13 @@ public class Carrera {
         }
     }
     
+    private void mostrarGanadores(){
+        for (Coche c:vGanadores) {
+            if (c!=null) {
+                System.out.println(c.toString());
+            }
+        }
+    }
     private void movimientoBots(){
         Random r = new Random();
         
@@ -188,24 +200,48 @@ public class Carrera {
     }
     
     private boolean comprobarTerminado(){
-        int contador=0;
-        for (Coche c:vCoches) {
-            if (!c.getEstado().equalsIgnoreCase("Marcha")) {
-                contador++;
+        introducirGanadores();
+        for (int i=0; i<vCoches.length; i++) {
+            
+            if (vCoches[0].getEstado().equalsIgnoreCase("Terminado")) {
+                return true;
             }
         }
-        if (contador == 0) {
-            return true;
-        }else{
-            return false;
+        return false;
+    }
+    
+    private void introducirGanadores(){
+        boolean bandera = true;
+        
+        while (bandera){
+            for (int i = 0; i < vCoches.length; i++) {
+                if (vCoches[i].getEstado().equalsIgnoreCase("Terminado")) {
+                    for (int j = 0; j < vGanadores.length; j++) {
+                        if (vGanadores[j] != null && vGanadores[j] == vCoches[i]) {
+                            bandera = false;
+                        }else if (vGanadores[j] == null){
+                            vGanadores[j] = vCoches[i];
+                            bandera = false;
+                        }
+                    }
+                }
+            }
+            bandera = false;
         }
+        
     }
     
     private void moverBotsHastaTerminar(){
-        
-        while (comprobarTerminado()){
-            if (vCoches[0].getEstado().equalsIgnoreCase("Terminado")) {
-                movimientoBots();
+        int contador=1;
+
+        while (contador!=vCoches.length){
+            contador = 1;
+            movimientoBots();
+            
+            for (int i=1; i<vCoches.length; i++) {
+                if (!vCoches[i].getEstado().equalsIgnoreCase("Marcha")) {
+                    contador++;
+                }
             }
         }
     }

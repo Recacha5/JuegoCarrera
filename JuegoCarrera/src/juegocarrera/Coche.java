@@ -48,7 +48,7 @@ public class Coche {
     @Override
     public String toString() {
         return "Piloto: " + piloto + " Dorsal: " + dorsal + "\n" +
-               "Distancia Recorrida: " + getDistancia() + "\n" +
+               "Distancia Carrera: " + getDistancia() + "\n" +
                "Estado: " + getEstado() + "\n" +
                "Velocidad: " + velocidad + " km/h \n" +
                "Km Recorridos: " + kmRecorridos + "\n--------------";
@@ -58,9 +58,6 @@ public class Coche {
         if (!estado.equalsIgnoreCase("Marcha")) {
             setEstado("Marcha");
             velocidad = 0;
-            System.out.println("Arrancado!");
-        }else{
-            System.out.println("Ya estás en marcha");
         }
     }
     
@@ -71,17 +68,13 @@ public class Coche {
             velocidad += r.nextInt(potencia)+1;
             if (velocidad > 200) {
                 setEstado("Accidentado");
-                velocidad = 0;
-                System.out.println("Te has pasado de acelerar, has accidentado");
+                velocidad = 0;                
             }else{
                 kmRecorridos += velocidad;
             }
             if (kmRecorridos > getDistancia()) {
                 setEstado("Terminado");
-                System.out.println("Has finalizado la carrera");
             }
-        }else{
-            System.out.println("El coche no está en marcha");
         }
     }
     
@@ -95,12 +88,8 @@ public class Coche {
             kmRecorridos += velocidad;
             if (kmRecorridos > getDistancia()) {
                 setEstado("Terminado");
-                System.out.println("Has finalizado la carrera");
             }
-        }else{
-            System.out.println("El coche no está en marcha");
-        }
-        
+        }        
     }
     
     public void rearrancar(){

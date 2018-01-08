@@ -18,6 +18,7 @@ public class JuegoCarrera {
         System.out.println("BIENVENIDO AL GRAN PRIX DE PROGRAMACIÓN!!!");
         System.out.println("(No, no es ver quién programa más rápido) \nEs una carrera de coches...");
         Carrera carrera = new Carrera();
+        
         carrera.jugar();
     }
     
